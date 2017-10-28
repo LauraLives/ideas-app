@@ -13,7 +13,14 @@ RSpec.describe IdeasController, type: :controller do
       idea = Idea.create!(name: "Drink soy milk", description: "It is full of beans!")
       get :show, params: { id: idea.id }
       expect(response).to render_template("show")
-      expect(response.body).to include(idea.name)
+      expect(response.body).to include("Drink soy milk")
+      expect(response.body).to include(idea.description)
+    end
+    it "can show an idea with a naughty word" do
+      idea = Idea.create!(name: "Drink poop milk", description: "It is full of shit!")
+      get :show, params: { id: idea.id }
+      expect(response).to render_template("show")
+      expect(response.body).to include("Drink shit milk")
       expect(response.body).to include(idea.description)
     end
   end
